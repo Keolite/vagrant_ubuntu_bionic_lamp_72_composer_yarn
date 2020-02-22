@@ -1,0 +1,30 @@
+# curl -sSk https://getcomposer.org/installer -o /tmp/composer-installer.php
+- name: Download composer
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: /tmp/installer.php
+  tags:
+    - composer
+
+# php /tmp/composer-installer.php
+# sudo mv composer.phar /usr/local/bin/composer
+- name: Install composer
+  command: "{{ item }}"
+  with_items:
+    - "php /tmp/installer.php"
+    - mv composer.phar /usr/local/bin/composer
+  tags:
+    - composer
+
+# sudo rm /tmp/composer-installer.php
+- name: Remove composer installer
+  file:
+    path: /tmp/installer.php
+    state: absent
+  tags:
+    - composer
+
+- name: Print composer version
+  command: composer -v
+  register: version
+- debug: msg="{{ version.stdout_lines }}"

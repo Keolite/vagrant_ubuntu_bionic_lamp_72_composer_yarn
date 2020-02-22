@@ -1,0 +1,70 @@
+- name: Install Utility software
+  apt:
+    name: software-properties-common
+    state: present
+
+- name: Ajoute key
+  command: apt-key adv --fetch-keys https://mariadb.org/mariadb_release_signing_key.asc
+
+- name: Add MariaDB Repo
+  apt_repository:
+    filename: MariaDB-10.4
+    repo: deb [arch=amd64,arm64,ppc64el] http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.4/ubuntu bionic main
+    state: present
+
+- name: Installation des paquets mariadb
+  apt:
+    update_cache: yes
+    state: present
+    pkg:
+      - mariadb-server
+      - mariadb-client
+      - mariadb-common
+      - python-mysqldb
+
+- name : Mise à jour du user Root
+  mysql_user:
+    name: root
+    password: "{{ pwddb }}"
+    update_password: always
+    host: 'localhost'
+    state: present
+
+- name: Secure the root user for IPV6 localhost (::1)
+  mysql_user:
+    login_user: root
+    login_password: "{{ pwddb }}"
+    user: root
+    password: "{{ pwddb }}"
+    host: ::1
+
+- name: Secure the root user for IPV4 localhost (127.0.0.1)
+  mysql_user:
+    login_user: root
+    login_password: "{{ pwddb }}"
+    user: root
+    password: "{{ pwddb }}"
+    host: 127.0.0.1
+
+- name: Secure the root user for localhost domain
+  mysql_user:
+    login_user: root
+    login_password: "{{ pwddb }}"
+    user: root
+    password: "{{ pwddb }}"
+    host: localhost
+
+- name: Deletes anonymous server user
+  mysql_user:
+    login_user: root
+    login_password: "{{ pwddb }}"
+    user: ""
+    host_all: yes
+    state: absent
+
+- name: Removes the test database
+  mysql_db:
+    login_user: root
+    login_password: "{{ pwddb }}"
+    db: test
+    state: absent

@@ -1,0 +1,7 @@
+- name: install utilitaires de base
+  apt:
+    pkg:
+      - curl
+      - zip
+      - unzip
+    state: present

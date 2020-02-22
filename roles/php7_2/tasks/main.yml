@@ -1,0 +1,36 @@
+- name: php and modules
+  apt:
+    pkg:
+      - php
+      - libapache2-mod-php
+      - php-cli
+      - php-mysql
+      - php-curl
+      - php-gd
+      - php-imagick
+      - php-recode
+      - php-tidy
+      - php-xmlrpc
+      - php-zip
+      - php-mbstring
+      - php-intl
+      - php-ctype
+      - php-xml
+    state: present
+
+- name: Configuration php
+  become: true
+  ini_file:
+    dest: /etc/php/7.2/cli/php.ini
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { section: Date, option: date.timezone, value: Europe/Paris }
+    - { section: PHP, option: max_execution_time, value: 360 }
+    - { section: PHP, option: memory_limit, value: 512M }
+    - { section: PHP, option: display_errors, value: On }
+    - { section: PHP, option: post_max_size, value: 64 }
+    - { section: PHP, option: upload_max_filesize, value: 500 }
+    - { section: PHP, option: max_input_time, value: 360 }
+  notify: "apache2 restart"

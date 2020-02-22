@@ -1,0 +1,24 @@
+- name: mkdir adminer
+  file:
+    path: "/var/www/adminer"
+    state: directory
+    mode: 0755
+    recurse: yes
+
+- name: download adminer
+  command: wget https://www.adminer.org/latest-mysql.php -O /var/www/adminer/index.php
+
+
+- name: add subdomaine
+  template:
+    src: adminer.j2
+    dest: "/etc/apache2/sites-available/adminer.localhost.conf"
+
+- name: a2ensite
+  command: a2ensite adminer.localhost.conf
+
+- name: restart apache2
+  service:
+    name: "apache2"
+    state: restarted
+
