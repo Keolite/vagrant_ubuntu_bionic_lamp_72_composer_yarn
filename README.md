@@ -89,7 +89,6 @@ config.vm.provision "shell", inline: <<-SHELL
 
      ip="127.0.0.1"
      pwddb="mot_de_passe_root_mariadb"
-     dbname="nom_base_de_donnees"
     
      apt update
      apt upgrade -y
@@ -103,7 +102,7 @@ config.vm.provision "shell", inline: <<-SHELL
      echo "${ip}" >> /etc/ansible/host
 
      git clone https://github.com/Keolite/vagrant_ubuntu_bionic_lamp_72_composer_yarn.git /home/vagrant/ansible
-     ansible-playbook /home/vagrant/ansible/general.yml -i "${ip}," -v -c local -u root --extra-vars "pwddb=${pwddb} dbname=${dbname} "
+     ansible-playbook /home/vagrant/ansible/general.yml -i "${ip}," -v -c local -u root --extra-vars "pwddb=${pwddb} "
     SHELL
 ```
 
