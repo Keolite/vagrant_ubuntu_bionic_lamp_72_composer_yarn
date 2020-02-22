@@ -102,18 +102,11 @@ config.vm.provision "shell", inline: <<-SHELL
      apt-get -y install ansible
      echo "${ip}" >> /etc/ansible/host
 
-     git clone https://github.com/Keolite/ansible-lamp-symfony-4.git /home/vagrant/ansible
+     git clone https://github.com/Keolite/vagrant_ubuntu_bionic_lamp_72_composer_yarn.git /home/vagrant/ansible
      ansible-playbook /home/vagrant/ansible/general.yml -i "${ip}," -v -c local -u root --extra-vars "pwddb=${pwddb} dbname=${dbname} "
     SHELL
 ```
 
-* Modifier les valeurs ci-dessous par les votres (comme l'exemple ci-dessous)
-```
-     pwddb="siaAustralie545"
-     dbname="blog"
-     dbuser="symfonyadmin"
-     pwduserdb="taylorSwift251"
-```
 ### 7 Démarrage de la machine et installation des technos (Provision)
 * Démarrer la machine virtuelle avec l'option de 'provision'
 `vagrant up --provision`
@@ -121,13 +114,7 @@ config.vm.provision "shell", inline: <<-SHELL
 ### 8 Utiliser la machine virtuelle
 * Pour accéder à la base de données saisir l'url `adminer.localhost:8080`
 
-<img width="364" alt="adminer" src="https://user-images.githubusercontent.com/26669933/74973236-60a16580-5423-11ea-87dc-3863a420155b.png">
-
 * Pour accéder à l'application saisir l'url `localhost:8080`
-
-Pas besoin de .htaccess la configration est réalisée dans le fichier _/etc/apache2/sites-available/000-default.conf_
-
-<img width="796" alt="symfo-4" src="https://user-images.githubusercontent.com/26669933/75065490-4336cf00-54e9-11ea-9b49-cb71682cf811.png">
 
 * Accéder à la machine invitée avec la commande `vagrant ssh`
 
