@@ -95,10 +95,10 @@ config.vm.provision "shell", inline: <<-SHELL
      apt install -y python-software-properties
      apt update
      apt upgrade -y
-     apt-get update
-     apt-get install -y software-properties-common
+     apt install -y software-properties-common
      apt-add-repository --yes --update ppa:ansible/ansible
-     apt-get -y install ansible
+     apt update
+     apt install -y ansible
      echo "${ip}" >> /etc/ansible/host
 
      git clone https://github.com/Keolite/vagrant_ubuntu_bionic_lamp_72_composer_yarn.git /home/vagrant/ansible
