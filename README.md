@@ -88,17 +88,13 @@ par (Ce code sera exécuter à l'installation de la machine pour installé toute
 config.vm.provision "shell", inline: <<-SHELL
 
      ip="127.0.0.1"
-     pwddb="mot_de_passe_root_mariadb"
+     pwddb="mariadb"
     
      apt update
-     apt upgrade -y
-     apt install -y python-software-properties
-     apt update
-     apt upgrade -y
-     apt-get update
-     apt-get install -y software-properties-common
-     apt-add-repository --yes --update ppa:ansible/ansible
-     apt-get -y install ansible
+     apt -y upgrade
+     apt install -y python-software-properties software-properties-common
+     apt-add-repository --yes --update ppa:ansible/ansible && apt update
+     apt -y install ansible
      echo "${ip}" >> /etc/ansible/host
 
      git clone https://github.com/Keolite/vagrant_ubuntu_bionic_lamp_72_composer_yarn.git /home/vagrant/ansible
